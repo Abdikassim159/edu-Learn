@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLearn - Courses</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="animated-bg" id="animatedBg"></div>
+
+<nav class="navbar">
+    <div class="logo">
+        <i class="fas fa-graduation-cap"></i> EduLearn
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="courses.html" class="active">Courses</a>
+        <a href="features.html">Features</a>
+        <a href="students.html">Students</a>
+        <a href="contact.html">Contact</a>
+        <a href="about.html">About</a>
+        <a href="login.html" class="login-btn">Login</a>
+    </div>
+</nav>
+
+<section class="page-header">
+    <h1>Our Courses</h1>
+    <p>Choose from our wide range of professional courses</p>
+</section>
+
+<section class="section">
+    <div class="courses-grid">
+        <div class="course-card">
+            <div class="course-icon"><i class="fab fa-js"></i></div>
+            <h3>JavaScript Mastery</h3>
+            <p>Complete JavaScript course from basics to advanced concepts.</p>
+            <div class="course-details">
+                <span><i class="far fa-clock"></i> 50 hours</span>
+                <span><i class="fas fa-signal"></i> Beginner to Pro</span>
+            </div>
+            <a href="#" class="btn-enroll" onclick="enrollCourse('JavaScript Mastery')">Enroll Now →</a>
+        </div>
+        <div class="course-card">
+            <div class="course-icon"><i class="fab fa-python"></i></div>
+            <h3>Python Programming</h3>
+            <p>Master Python for data science, AI, and web development.</p>
+            <div class="course-details">
+                <span><i class="far fa-clock"></i> 60 hours</span>
+                <span><i class="fas fa-signal"></i> All Levels</span>
+            </div>
+            <a href="#" class="btn-enroll" onclick="enrollCourse('Python Programming')">Enroll Now →</a>
+        </div>
+        <div class="course-card">
+            <div class="course-icon"><i class="fas fa-code"></i></div>
+            <h3>Web Development</h3>
+            <p>Full-stack development with HTML, CSS, React, and Node.js.</p>
+            <div class="course-details">
+                <span><i class="far fa-clock"></i> 80 hours</span>
+                <span><i class="fas fa-signal"></i> Beginner</span>
+            </div>
+            <a href="#" class="btn-enroll" onclick="enrollCourse('Web Development')">Enroll Now →</a>
+        </div>
+        <div class="course-card">
+            <div class="course-icon"><i class="fab fa-react"></i></div>
+            <h3>React Framework</h3>
+            <p>Build modern web applications with React.js.</p>
+            <div class="course-details">
+                <span><i class="far fa-clock"></i> 40 hours</span>
+                <span><i class="fas fa-signal"></i> Intermediate</span>
+            </div>
+            <a href="#" class="btn-enroll" onclick="enrollCourse('React Framework')">Enroll Now →</a>
+        </div>
+        <div class="course-card">
+            <div class="course-icon"><i class="fas fa-database"></i></div>
+            <h3>SQL & Databases</h3>
+            <p>Learn database design and management.</p>
+            <div class="course-details">
+                <span><i class="far fa-clock"></i> 35 hours</span>
+                <span><i class="fas fa-signal"></i> Beginner</span>
+            </div>
+            <a href="#" class="btn-enroll" onclick="enrollCourse('SQL & Databases')">Enroll Now →</a>
+        </div>
+        <div class="course-card">
+            <div class="course-icon"><i class="fas fa-brain"></i></div>
+            <h3>AI & Machine Learning</h3>
+            <p>Build intelligent systems with modern AI techniques.</p>
+            <div class="course-details">
+                <span><i class="far fa-clock"></i> 100 hours</span>
+                <span><i class="fas fa-signal"></i> Advanced</span>
+            </div>
+            <a href="#" class="btn-enroll" onclick="enrollCourse('AI & Machine Learning')">Enroll Now →</a>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4><i class="fas fa-graduation-cap"></i> EduLearn</h4>
+            <p>Empowering learners worldwide with quality education since 2024.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <a href="index.html">Home</a>
+            <a href="courses.html">Courses</a>
+            <a href="features.html">Features</a>
+            <a href="students.html">Students</a>
+        </div>
+        <div class="footer-section">
+            <h4>Support</h4>
+            <a href="contact.html">Contact Us</a>
+            <a href="about.html">About Us</a>
+        </div>
+        <div class="footer-section">
+            <h4>Follow Us</h4>
+            <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 EduLearn. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

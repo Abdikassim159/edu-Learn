@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLearn - Complete Student Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .animated-bg span {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo i {
+            background: none;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links button {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        .nav-links button:hover {
+            color: #667eea;
+        }
+
+        .nav-links button.active {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+            color: white !important;
+            padding: 0.5rem 1.5rem !important;
+            border-radius: 50px !important;
+        }
+
+        /* Page Container */
+        .page-container {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active-page {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10%;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content .highlight {
+            background: linear-gradient(135deg, #ffd89b, #c7e9fb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-content p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-image {
+            flex: 1;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            animation: floatImage 3s ease-in-out infinite;
+        }
+
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 3rem 10%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 2rem 5% 2rem;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Courses Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .course-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .course-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .course-card h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .course-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .btn-enroll {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Features Grid */
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .feature-icon i {
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        /* CRUD Styles */
+        .crud-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2rem;
+        }
+
+        .form-card, .table-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-card h3, .table-card h3 {
+            margin-bottom: 1.5rem;
+            color: #333;
+            border-left: 4px solid #667eea;
+            padding-left: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .crud-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-save, .btn-update, .btn-clear {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn-update {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: white;
+        }
+
+        .btn-clear {
+            background: #6c757d;
+            color: white;
+        }
+
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .students-table th,
+        .students-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .students-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-edit {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .search-box {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 0.6rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .search-box button {
+            padding: 0.6rem 1rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .stats-badge {
+            display: inline-block;
+            background: #667eea20;
+            color: #667eea;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Form */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .info-card i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-form {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        /* About Page */
+        .about-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .about-content h2 {
+            margin: 1.5rem 0 1rem;
+            border-left: 4px solid #667eea;
+            padding-left: 1rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .stat h3 {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        /* Login Page */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-card .input-group {
+            display: flex;
+            align-items: center;
+            background: #f5f5f5;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .login-card .input-group i {
+            color: #999;
+            margin-right: 0.5rem;
+        }
+
+        .login-card .input-group input {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 0.5rem;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 3rem 10% 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-links {
+                justify-content: center;
+            }
+            .hero {
+                text-align: center;
+                padding-top: 2rem;
+            }
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .crud-container {
+                grid-template-columns: 1fr;
+            }
+            .section {
+                padding: 2rem 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="animated-bg" id="animatedBg"></div>
+
+<nav class="navbar">
+    <div class="logo">
+        <i class="fas fa-graduation-cap"></i> EduLearn
+    </div>
+    <div class="nav-links">
+        <button onclick="showPage('home')" id="btnHome" class="active">Home</button>
+        <button onclick="showPage('courses')" id="btnCourses">Courses</button>
+        <button onclick="showPage('features')" id="btnFeatures">Features</button>
+        <button onclick="showPage('students')" id="btnStudents">Students</button>
+        <button onclick="showPage('contact')" id="btnContact">Contact</button>
+        <button onclick="showPage('about')" id="btnAbout">About</button>
+        <button onclick="showPage('login')" id="btnLogin" class="login-btn">Login</button>
+    </div>
+</nav>
+
+<div class="page-container">
+    <!-- HOME PAGE -->
+    <div id="homePage" class="page active-page">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Transform Your Future with <span class="highlight">Digital Education</span></h1>
+                <p>Join thousands of students learning cutting-edge skills from industry experts.</p>
+                <button onclick="showPage('students')" class="btn-primary">
+                    <i class="fas fa-rocket"></i> Get Started Free
+                </button>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=500&fit=crop" alt="Students learning">
+            </div>
+        </section>
+        <section class="section">
+            <h2 class="section-title">Our Popular Courses</h2>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-icon"><i class="fab fa-js"></i></div>
+                    <h3>JavaScript Mastery</h3>
+                    <p>Learn JavaScript from beginner to advanced.</p>
+                    <button onclick="enrollCourse('JavaScript Mastery')" class="btn-enroll">Enroll Now →</button>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon"><i class="fab fa-python"></i></div>
+                    <h3>Python Programming</h3>
+                    <p>Master Python for data science and AI.</p>
+                    <button onclick="enrollCourse('Python Programming')" class="btn-enroll">Enroll Now →</button>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon"><i class="fas fa-code"></i></div>
+                    <h3>Web Development</h3>
+                    <p>Full-stack development with modern tools.</p>
+                    <button onclick="enrollCourse('Web Development')" class="btn-enroll">Enroll Now →</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- COURSES PAGE -->
+    <div id="coursesPage" class="page">
+        <div class="page-header">
+            <h1>Our Courses</h1>
+            <p>Choose from our wide range of professional courses</p>
+        </div>
+        <section class="section">
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-icon"><i class="fab fa-js"></i></div>
+                    <h3>JavaScript Mastery</h3>
+                    <p>Complete JavaScript course from basics to advanced concepts.</p>
+                    <button onclick="enrollCourse('JavaScript Mastery')" class="btn-enroll">Enroll Now →</button>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon"><i class="fab fa-python"></i></div>
+                    <h3>Python Programming</h3>
+                    <p>Master Python for data science, AI, and web development.</p>
+                    <button onclick="enrollCourse('Python Programming')" class="btn-enroll">Enroll Now →</button>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon"><i class="fas fa-code"></i></div>
+                    <h3>Web Development</h3>
+                    <p>Full-stack development with HTML, CSS, React, and Node.js.</p>
+                    <button onclick="enrollCourse('Web Development')" class="btn-enroll">Enroll Now →</button>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon"><i class="fab fa-react"></i></div>
+                    <h3>React Framework</h3>
+                    <p>Build modern web applications with React.js.</p>
+                    <button onclick="enrollCourse('React Framework')" class="btn-enroll">Enroll Now →</button>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon"><i class="fas fa-database"></i></div>
+                    <h3>SQL & Databases</h3>
+                    <p>Learn database design and management.</p>
+                    <button onclick="enrollCourse('SQL & Databases')" class="btn-enroll">Enroll Now →</button>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon"><i class="fas fa-brain"></i></div>
+                    <h3>AI & Machine Learning</h3>
+                    <p>Build intelligent systems with modern AI techniques.</p>
+                    <button onclick="enrollCourse('AI & Machine Learning')" class="btn-enroll">Enroll Now →</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FEATURES PAGE -->
+    <div id="featuresPage" class="page">
+        <div class="page-header">
+            <h1>Amazing Features</h1>
+            <p>Everything you need to succeed in your learning journey</p>
+        </div>
+        <section class="section">
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chalkboard-user"></i></div>
+                    <h3>Expert Instructors</h3>
+                    <p>Learn from industry professionals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-certificate"></i></div>
+                    <h3>Verified Certificates</h3>
+                    <p>Earn recognized certificates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Flexible Learning</h3>
+                    <p>Learn at your own pace.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-users"></i></div>
+                    <h3>Community Support</h3>
+                    <p>Join 50,000+ students.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Access on any device.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                    <h3>24/7 Support</h3>
+                    <p>Get help anytime.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- STUDENTS PAGE (CRUD) -->
+    <div id="studentsPage" class="page">
+        <div class="page-header">
+            <h1>Student Management System</h1>
+            <p>Add, Edit, Update, and Delete Student Records (CRUD Operations)</p>
+        </div>
+        <section class="section">
+            <div class="crud-container">
+                <div class="form-card">
+                    <h3><i class="fas fa-user-graduate"></i> Student Registration Form</h3>
+                    <input type="hidden" id="studentId" value="">
+                    
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="studentName" placeholder="Enter student name">
+                    </div>
+                    <div class="form-group">
+                        <label>Registration Number</label>
+                        <input type="text" id="studentRegNo" placeholder="Enter registration number">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="studentEmail" placeholder="Enter email address">
+                    </div>
+                    <div class="form-group">
+                        <label>Course</label>
+                        <input type="text" id="studentCourse" placeholder="Enter course name">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="studentPhone" placeholder="Enter phone number">
+                    </div>
+                    
+                    <div class="crud-buttons">
+                        <button class="btn-save" id="saveBtn" onclick="addStudent()">
+                            <i class="fas fa-save"></i> Save Student
+                        </button>
+                        <button class="btn-clear" onclick="clearForm()">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-card">
+                    <h3><i class="fas fa-table-list"></i> Student Records</h3>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search by name, reg no, or course..." onkeyup="searchStudents()">
+                        <button onclick="searchStudents()"><i class="fas fa-search"></i> Search</button>
+                    </div>
+                    <div class="stats-badge" id="studentCount">Total Students: 0</div>
+                    <div style="overflow-x: auto;">
+                        <table class="students-table">
+                            <thead>
+                                <tr><th>ID</th><th>Name</th><th>Reg No</th><th>Email</th><th>Course</th><th>Phone</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="studentTableBody"><tr><td colspan="7" style="text-align:center;">Loading students...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div id="contactPage" class="page">
+        <div class="page-header">
+            <h1>Contact Us</h1>
+            <p>We'd love to hear from you. Send us a message!</p>
+        </div>
+        <section class="section">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="info-card"><i class="fas fa-map-marker-alt"></i><h3>Visit Us</h3><p>123 Education Street, Nairobi, Kenya</p></div>
+                    <div class="info-card"><i class="fas fa-phone"></i><h3>Call Us</h3><p>+254 712 345 678<br>+254 789 123 456</p></div>
+                    <div class="info-card"><i class="fas fa-envelope"></i><h3>Email Us</h3><p>info@edulearn.com<br>support@edulearn.com</p></div>
+                </div>
+                <div class="contact-form">
+                    <h3>Send a Message</h3>
+                    <input type="text" id="contactName" placeholder="Your Name">
+                    <input type="email" id="contactEmail" placeholder="Your Email">
+                    <input type="text" id="contactSubject" placeholder="Subject">
+                    <textarea id="contactMessage" rows="5" placeholder="Your Message"></textarea>
+                    <button class="btn-submit" onclick="sendMessage()">Send Message →</button>
+                    <p id="contactFormMessage" style="margin-top:1rem; text-align:center;"></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="aboutPage" class="page">
+        <div class="page-header">
+            <h1>About EduLearn</h1>
+            <p>Empowering the next generation of tech leaders</p>
+        </div>
+        <section class="section">
+            <div class="about-container">
+                <div class="about-content">
+                    <h2>Our Mission</h2>
+                    <p>To make quality education accessible to everyone, everywhere.</p>
+                    <h2>Our Vision</h2>
+                    <p>To become the world's leading platform for technical education.</p>
+                    <h2>Our Story</h2>
+                    <p>Founded in 2024, EduLearn started with a simple idea: create a platform where passionate instructors could share their knowledge.</p>
+                    <div class="stats">
+                        <div class="stat"><h3>50,000+</h3><p>Students</p></div>
+                        <div class="stat"><h3>100+</h3><p>Countries</p></div>
+                        <div class="stat"><h3>200+</h3><p>Courses</p></div>
+                        <div class="stat"><h3>50+</h3><p>Instructors</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="page">
+        <section class="section">
+            <div class="login-container">
+                <div class="login-card">
+                    <i class="fas fa-graduation-cap" style="font-size: 3rem; color: #667eea;"></i>
+                    <h2>Welcome Back!</h2>
+                    <p>Login to continue your learning journey</p>
+                    <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="loginEmail" placeholder="Email Address"></div>
+                    <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="loginPassword" placeholder="Password"></div>
+                    <button class="btn-login" onclick="handleLogin()">Login →</button>
+                    <p id="loginMessage" style="margin-top:1rem;"></p>
+                    <p style="margin-top:1rem;">Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section"><h4>EduLearn</h4><p>Empowering learners worldwide since 2024.</p></div>
+        <div class="footer-section"><h4>Quick Links</h4><button onclick="showPage('home')" style="background:none; border:none; color:#aaa; display:block; margin-bottom:0.5rem;">Home</button>
+        <button onclick="showPage('courses')" style="background:none; border:none; color:#aaa; display:block; margin-bottom:0.5rem;">Courses</button>
+        <button onclick="showPage('students')" style="background:none; border:none; color:#aaa; display:block;">Students</button></div>
+        <div class="footer-section"><h4>Follow Us</h4><a href="#"><i class="fab fa-facebook"></i> Facebook</a><a href="#"><i class="fab fa-twitter"></i> Twitter</a><a href="#"><i class="fab fa-instagram"></i> Instagram</a></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 EduLearn. All rights reserved. | Developed by Abdiweli Kassim</p></div>
+</footer>
+
+<script>
+    // ==================== PAGE NAVIGATION ====================
+    function showPage(pageName) {
+        // Hide all pages
+        document.getElementById('homePage').classList.remove('active-page');
+        document.getElementById('coursesPage').classList.remove('active-page');
+        document.getElementById('featuresPage').classList.remove('active-page');
+        document.getElementById('studentsPage').classList.remove('active-page');
+        document.getElementById('contactPage').classList.remove('active-page');
+        document.getElementById('aboutPage').classList.remove('active-page');
+        document.getElementById('loginPage').classList.remove('active-page');
+        
+        // Show selected page
+        document.getElementById(pageName + 'Page').classList.add('active-page');
+        
+        // Update active button
+        const buttons = ['btnHome', 'btnCourses', 'btnFeatures', 'btnStudents', 'btnContact', 'btnAbout', 'btnLogin'];
+        buttons.forEach(btn => {
+            const element = document.getElementById(btn);
+            if (element) element.classList.remove('active');
+        });
+        
+        const activeBtn = document.getElementById('btn' + pageName.charAt(0).toUpperCase() + pageName.slice(1));
+        if (activeBtn) activeBtn.classList.add('active');
+        
+        // Refresh student list when students page is shown
+        if (pageName === 'students') {
+            loadStudents();
+        }
+    }
+
+    // ==================== CRUD OPERATIONS ====================
+    let students = [];
+    let editId = null;
+
+    function loadStudents() {
+        const stored = localStorage.getItem('edulearn_students');
+        if (stored && stored !== 'undefined') {
+            students = JSON.parse(stored);
+        }
+        if (!students || students.length === 0) {
+            students = [
+                { id: 1, name: 'John Doe', regNo: 'REG001', email: 'john@example.com', course: 'JavaScript', phone: '0712345678' },
+                { id: 2, name: 'Jane Smith', regNo: 'REG002', email: 'jane@example.com', course: 'Python', phone: '0723456789' },
+                { id: 3, name: 'Mike Johnson', regNo: 'REG003', email: 'mike@example.com', course: 'Web Development', phone: '0734567890' }
+            ];
+            saveToLocalStorage();
+        }
+        displayStudents();
+    }
+
+    function saveToLocalStorage() {
+        localStorage.setItem('edulearn_students', JSON.stringify(students));
+    }
+
+    function displayStudents(filtered = null) {
+        const tbody = document.getElementById('studentTableBody');
+        if (!tbody) return;
+        
+        const data = filtered || students;
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No students found. Add a student!</td></tr>';
+            document.getElementById('studentCount').innerHTML = 'Total Students: 0';
+            return;
+        }
+        
+        tbody.innerHTML = '';
+        data.forEach(s => {
+            tbody.innerHTML += `<tr>
+                <td>${s.id}</td><td><strong>${s.name}</strong></td><td>${s.regNo}</td><td>${s.email}</td>
+                <td><span class="stats-badge">${s.course}</span></td><td>${s.phone}</td>
+                <td class="action-btns"><button class="btn-edit" onclick="editStudent(${s.id})"><i class="fas fa-edit"></i> Edit</button>
+                <button class="btn-delete" onclick="deleteStudent(${s.id})"><i class="fas fa-trash"></i> Delete</button></td>
+            </tr>`;
+        });
+        document.getElementById('studentCount').innerHTML = `Total Students: ${data.length}`;
+    }
+
+    function addStudent() {
+        const name = document.getElementById('studentName')?.value.trim();
+        const regNo = document.getElementById('studentRegNo')?.value.trim();
+        const email = document.getElementById('studentEmail')?.value.trim();
+        const course = document.getElementById('studentCourse')?.value.trim();
+        const phone = document.getElementById('studentPhone')?.value.trim();
+        
+        if (!name || !regNo || !email || !course || !phone) {
+            alert('❌ Please fill in all fields!');
+            return;
+        }
+        
+        if (students.some(s => s.regNo === regNo)) {
+            alert('❌ Registration number already exists!');
+            return;
+        }
+        
+        const newId = students.length > 0 ? Math.max(...students.map(s => s.id)) + 1 : 1;
+        students.push({ id: newId, name, regNo, email, course, phone });
+        saveToLocalStorage();
+        displayStudents();
+        clearForm();
+        alert(`✅ Student "${name}" added successfully!`);
+    }
+
+    function editStudent(id) {
+        const student = students.find(s => s.id === id);
+        if (!student) return;
+        
+        editId = id;
+        document.getElementById('studentId').value = student.id;
+        document.getElementById('studentName').value = student.name;
+        document.getElementById('studentRegNo').value = student.regNo;
+        document.getElementById('studentEmail').value = student.email;
+        document.getElementById('studentCourse').value = student.course;
+        document.getElementById('studentPhone').value = student.phone;
+        
+        const saveBtn = document.getElementById('saveBtn');
+        saveBtn.innerHTML = '<i class="fas fa-pen"></i> Update Student';
+        saveBtn.setAttribute('onclick', 'updateStudent()');
+        saveBtn.classList.add('btn-update');
+        saveBtn.classList.remove('btn-save');
+    }
+
+    function updateStudent() {
+        const name = document.getElementById('studentName')?.value.trim();
+        const regNo = document.getElementById('studentRegNo')?.value.trim();
+        const email = document.getElementById('studentEmail')?.value.trim();
+        const course = document.getElementById('studentCourse')?.value.trim();
+        const phone = document.getElementById('studentPhone')?.value.trim();
+        
+        if (!name || !regNo || !email || !course || !phone) {
+            alert('❌ Please fill in all fields!');
+            return;
+        }
+        
+        const index = students.findIndex(s => s.id === editId);
+        if (index !== -1) {
+            students[index] = { id: editId, name, regNo, email, course, phone };
+            saveToLocalStorage();
+            displayStudents();
+            clearForm();
+            alert(`✅ Student "${name}" updated successfully!`);
+        }
+    }
+
+    function deleteStudent(id) {
+        const student = students.find(s => s.id === id);
+        if (confirm(`⚠️ Are you sure you want to delete "${student?.name}"?`)) {
+            students = students.filter(s => s.id !== id);
+            saveToLocalStorage();
+            displayStudents();
+            alert('✅ Student deleted successfully!');
+            if (editId === id) clearForm();
+        }
+    }
+
+    function clearForm() {
+        document.getElementById('studentId').value = '';
+        document.getElementById('studentName').value = '';
+        document.getElementById('studentRegNo').value = '';
+        document.getElementById('studentEmail').value = '';
+        document.getElementById('studentCourse').value = '';
+        document.getElementById('studentPhone').value = '';
+        editId = null;
+        
+        const saveBtn = document.getElementById('saveBtn');
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Student';
+        saveBtn.setAttribute('onclick', 'addStudent()');
+        saveBtn.classList.add('btn-save');
+        saveBtn.classList.remove('btn-update');
+    }
+
+    function searchStudents() {
+        const term = document.getElementById('searchInput')?.value.toLowerCase();
+        if (!term) { displayStudents(); return; }
+        const filtered = students.filter(s => s.name.toLowerCase().includes(term) || s.regNo.toLowerCase().includes(term) || s.course.toLowerCase().includes(term));
+        displayStudents(filtered);
+    }
+
+    // ==================== OTHER FUNCTIONS ====================
+    function enrollCourse(courseName) {
+        alert(`🎓 You have enrolled in ${courseName}! Check your email for details.`);
+    }
+
+    function sendMessage() {
+        const name = document.getElementById('contactName').value;
+        const email = document.getElementById('contactEmail').value;
+        const message = document.getElementById('contactMessage').value;
+        const msgEl = document.getElementById('contactFormMessage');
+        
+        if (name && email && message) {
+            msgEl.innerHTML = '✅ Thank you! Your message has been sent.';
+            msgEl.style.color = '#28a745';
+            document.getElementById('contactName').value = '';
+            document.getElementById('contactEmail').value = '';
+            document.getElementById('contactSubject').value = '';
+            document.getElementById('contactMessage').value = '';
+            setTimeout(() => msgEl.innerHTML = '', 3000);
+        } else {
+            msgEl.innerHTML = '❌ Please fill in all fields.';
+            msgEl.style.color = '#dc3545';
+            setTimeout(() => msgEl.innerHTML = '', 3000);
+        }
+    }
+
+    function handleLogin() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const msgEl = document.getElementById('loginMessage');
+        
+        if (email && password) {
+            msgEl.innerHTML = '✅ Login successful! Redirecting...';
+            msgEl.style.color = '#28a745';
+            setTimeout(() => showPage('home'), 1500);
+        } else {
+            msgEl.innerHTML = '❌ Please enter email and password.';
+            msgEl.style.color = '#dc3545';
+            setTimeout(() => msgEl.innerHTML = '', 3000);
+        }
+    }
+
+    function showSignup() {
+        alert('📝 Sign up feature coming soon!');
+    }
+
+    // ==================== ANIMATED BACKGROUND ====================
+    function createBubbles() {
+        const bg = document.getElementById('animatedBg');
+        if (!bg) return;
+        for (let i = 0; i < 50; i++) {
+            const bubble = document.createElement('span');
+            const size = Math.random() * 50 + 10;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.animationDelay = Math.random() * 15 + 's';
+            bubble.style.animationDuration = Math.random() * 10 + 10 + 's';
+            bg.appendChild(bubble);
+        }
+    }
+
+    // ==================== INITIALIZE ====================
+    document.addEventListener('DOMContentLoaded', function() {
+        createBubbles();
+        loadStudents();
+        console.log('🚀 EduLearn Loaded Successfully!');
+    });
+</script>
+
+</body>
+</html>
